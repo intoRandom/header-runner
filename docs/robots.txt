@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://run.intorandom.com/sitemap.xml

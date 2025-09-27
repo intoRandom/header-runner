@@ -197,7 +197,7 @@ function App() {
 				<div>
 					Check{' '}
 					<a
-						href='https://github.com/intorandom'
+						href='https://github.com/intoRandom/header-runner'
 						target='_blank'
 						rel='noreferrer'
 					>

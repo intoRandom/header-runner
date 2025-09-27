@@ -21,7 +21,7 @@ Jump obstacles, rack up points, and see how far you can go!
 
 ## 🌐 Online Demo
 
-- [Play](https://link/)
+- [Play](https://run.intorandom.com)
 
 ---
 
