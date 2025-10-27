@@ -18,6 +18,7 @@ const HIT = '-';
 
 function App() {
 	const [score, setScore] = useState(0);
+	const [bestScore, setBestScore] = useState(0);
 	const [status, setStatus] = useState<StatusType>('idle');
 	const [track, setTrack] = useState(Array(ARR_LENGTH).fill(EMPTY));
 	const [player, setPlayer] = useState(WALK);
@@ -85,11 +86,17 @@ function App() {
 
 	useEffect(() => {
 		if (status === 'running' && track[PLAYER_INDEX] === OBSTACLE) {
+			setBestScore((prev) => {
+				if (prev < score) {
+					return score;
+				}
+				return prev;
+			});
 			setStatus('gameOver');
 			setPlayer(DEAD);
 			playSound(gameOverSound.current);
 		}
-	}, [track, status]);
+	}, [track, status, score]);
 
 	useEffect(() => {
 		let display = [...track];
@@ -158,30 +165,42 @@ function App() {
 			<h1>Header Runner</h1>
 
 			<div className='score'>
-				Score: <strong>{score}</strong>
+				{status === 'idle' ? (
+					<span>
+						Best Score: <strong>{bestScore}</strong>
+					</span>
+				) : (
+					<span>
+						Score: <strong>{score}</strong>
+					</span>
+				)}
 			</div>
 
-			<div className='display-mode'>
-				<label htmlFor='display-mode'>
-					Display mode:{' '}
-					<select
-						id='display-mode'
-						value={displayMode}
-						onChange={(e) => setDisplayMode(e.target.value as 'uri' | 'title')}
-						aria-label='Choose display mode'
-					>
-						<option value='uri'>URI (hash)</option>
-						<option value='title'>Title</option>
-					</select>
-				</label>
-			</div>
+			{status === 'idle' && (
+				<div className='display-mode'>
+					<label htmlFor='display-mode'>
+						Display mode:{' '}
+						<select
+							id='display-mode'
+							value={displayMode}
+							onChange={(e) =>
+								setDisplayMode(e.target.value as 'uri' | 'title')
+							}
+							aria-label='Choose display mode'
+						>
+							<option value='uri'>URI (hash)</option>
+							<option value='title'>Title</option>
+						</select>
+					</label>
+				</div>
+			)}
 
 			{status === 'paused' && (
 				<div className='status-paused'>PAUSED - Press SPACE to continue</div>
 			)}
 			{status === 'idle' && <div>Press SPACE to start</div>}
 			{status === 'gameOver' && (
-				<div className='status-gameover'>
+				<div className='status-gameOver'>
 					GAME OVER - Press SPACE to restart
 				</div>
 			)}

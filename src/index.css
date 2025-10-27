@@ -57,7 +57,7 @@ body {
 .status-paused {
 	color: orange;
 }
-.status-gameover {
+.status-gameOver {
 	color: red;
 }
 
