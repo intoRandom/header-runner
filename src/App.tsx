@@ -41,7 +41,9 @@ function App() {
 	useEffect(() => {
 		if (status !== 'running' && status !== 'jumping') return;
 
-		const id = setInterval(() => {
+		let timeoutId: number;
+
+		const tick = () => {
 			setTrack((prev) => {
 				const newTrack = [...prev];
 				newTrack.pop();
@@ -79,9 +81,12 @@ function App() {
 					return next;
 				});
 			}
-		}, intervalRef.current);
 
-		return () => clearInterval(id);
+			timeoutId = window.setTimeout(tick, intervalRef.current);
+		};
+
+		timeoutId = window.setTimeout(tick, intervalRef.current);
+		return () => clearTimeout(timeoutId);
 	}, [status]);
 
 	useEffect(() => {
